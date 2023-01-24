@@ -19,10 +19,16 @@ h1 {
   margin: auto;
 }
 
-.tb button {
+button {
   width: 25%;
   justify-content: center;
   overflow: hidden;
+  all: unset;
+  cursor: pointer;
+}
+
+.sorted {
+  font-weight: 700;
 }
 
 .tb-header {
@@ -31,7 +37,7 @@ h1 {
   grid-auto-columns: max-content;
   font-weight: 300;
   background-color: rgb(255, 255, 255);
-  padding: 10px 15px 10px 15px;
+  padding: 10px 15px;
   border-bottom: rgb(214, 214, 214) solid 1px;
   color: rgba(129, 129, 129, 0.726);
   padding-top: 30px;

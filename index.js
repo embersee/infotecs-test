@@ -1,25 +1,109 @@
-window.onload = (e) => {
-  const d = document
-  const scrollContainer = d.querySelector('.tb-scroll')
-  const firstNameFilter = d.getElementById('firstNameFilter')
-  const lastNameFilter = d.getElementById('lastNameFilter')
-  const aboutFilter = d.getElementById('aboutFilter')
-  const eyeColourFilter = d.getElementById('eyeColourFilter')
+window.onload = () => {
+  const firstNameFilter = document.getElementById('firstNameFilter')
+  const lastNameFilter = document.getElementById('lastNameFilter')
+  const aboutFilter = document.getElementById('aboutFilter')
+  const eyeColourFilter = document.getElementById('eyeColourFilter')
 
-  UpdateTable(scrollContainer, JsonData)
+  firstNameFilter.addEventListener('click', () => {
+    /*
+      sorting algo:
+      If the result is negative, A is sorted before B,
+      if the result is positive, B is sorted before A,
+      if the result is 0, no sort order change.
+    */
+    function alphabetSort(a, b) {
+      return a.name.firstName < b.name.firstName
+        ? -1
+        : a.name.firstName > b.name.firstName
+        ? 1
+        : 0
+    }
+
+    if (!firstNameFilter.classList.contains('sorted')) {
+      UpdateTable(JsonData.sort((a, b) => alphabetSort(a, b)))
+      firstNameFilter.classList.add('sorted')
+    } else {
+      UpdateTable(JsonData.sort((a, b) => alphabetSort(a, b)).reverse())
+      firstNameFilter.classList.remove('sorted')
+    }
+  })
+
+  lastNameFilter.addEventListener('click', () => {
+    function alphabetSort(a, b) {
+      if (a.name.lastName < b.name.lastName) {
+        return -1
+      }
+      if (a.name.lastName > b.name.lastName) {
+        return 1
+      }
+      return 0
+    }
+
+    if (!lastNameFilter.classList.contains('sorted')) {
+      UpdateTable(JsonData.sort((a, b) => alphabetSort(a, b)))
+      lastNameFilter.classList.add('sorted')
+    } else {
+      UpdateTable(JsonData.sort((a, b) => alphabetSort(a, b)).reverse())
+      lastNameFilter.classList.remove('sorted')
+    }
+  })
+
+  aboutFilter.addEventListener('click', () => {
+    function alphabetSort(a, b) {
+      if (a.about < b.about) {
+        return -1
+      }
+      if (a.about > b.about) {
+        return 1
+      }
+      return 0
+    }
+
+    if (!aboutFilter.classList.contains('sorted')) {
+      UpdateTable(JsonData.sort((a, b) => alphabetSort(a, b)))
+      aboutFilter.classList.add('sorted')
+    } else {
+      UpdateTable(JsonData.sort((a, b) => alphabetSort(a, b)).reverse())
+      aboutFilter.classList.remove('sorted')
+    }
+  })
+
+  eyeColourFilter.addEventListener('click', () => {
+    function alphabetSort(a, b) {
+      if (a.eyeColor < b.eyeColor) {
+        return -1
+      }
+      if (a.eyeColor > b.eyeColor) {
+        return 1
+      }
+      return 0
+    }
+
+    if (!eyeColourFilter.classList.contains('sorted')) {
+      UpdateTable(JsonData.sort((a, b) => alphabetSort(a, b)))
+      eyeColourFilter.classList.add('sorted')
+    } else {
+      UpdateTable(JsonData.sort((a, b) => alphabetSort(a, b)).reverse())
+      eyeColourFilter.classList.remove('sorted')
+    }
+  })
+
+  UpdateTable(JsonData)
 }
 
-function UpdateTable(scrollContainer, data) {
-  //Remove previous children nodes on table
-  scrollContainer.replaceChildren()
+function UpdateTable(data) {
+  const scrollContainer = document.querySelector('.tb-scroll')
 
+  scrollContainer.replaceChildren() //Remove previous children nodes on table
   /*
     Loop over JSON data, for each entry create an element and append
-    it to the scroll container or table 
+    it to the scroll container / table 
   */
-  data.map((item, i) => {
+  data.map((item) => {
+    /*
+      Initalize elements
+    */
     const cell = document.createElement('div')
-
     const firstName = document.createElement('span')
     const lastName = document.createElement('span')
     const about = document.createElement('span')
@@ -30,15 +114,14 @@ function UpdateTable(scrollContainer, data) {
     about.append(item.about)
     eyeColour.append(item.eyeColor)
 
-    const firstNameContainer = document.createElement('div')
-    const lastNameContainer = document.createElement('div')
+    /*
+      Create seperate container for about section, because it needs
+      to have 2 lines visible and the overflow in an ellipses
+    */
     const aboutContainer = document.createElement('div')
-    const eyeContainer = document.createElement('div')
-
-    firstNameContainer.append(firstName)
-    lastNameContainer.append(lastName)
     aboutContainer.append(about)
-    eyeContainer.append(eyeColour)
+
+    eyeColour.setAttribute('style', `color:${item.eyeColor}`) //Add style attribute for colour of eyes
 
     cell.classList.add('tb-content')
 
@@ -47,8 +130,6 @@ function UpdateTable(scrollContainer, data) {
     scrollContainer.append(cell)
   })
 }
-
-//
 
 const JsonData = [
   {
