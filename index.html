@@ -20,6 +20,40 @@
         </div>
         <div class="tb-scroll"></div>
       </div>
+      <div id="edit-pane">
+        <form id="edit-form" onsubmit="">
+          <div class="form-row">
+            <label for="name">Имя: </label>
+            <input id="firstNameInput" name="name" placeholder="Иван" />
+          </div>
+          <div class="form-row">
+            <label for="name">Фамилия: </label>
+            <input id="lastNameInput" name="lastname" placeholder="Иванов" />
+          </div>
+          <div class="form-row">
+            <label for="name">Описание: </label>
+            <input
+              id="aboutInput"
+              name="description"
+              placeholder="Eu ipsum est in exercitation voluptate occaecat"
+            />
+          </div>
+          <div class="form-row">
+            <label for="name">Цвет глаз: </label>
+            <select id="eyeColourInput" name="eyecolour">
+              <option value="blue">blue</option>
+              <option value="red">red</option>
+              <option value="brown">brown</option>
+              <option value="green">green</option>
+            </select>
+          </div>
+
+          <div>
+            <button type="button" id="cancelButton">Отменить</button>
+            <button type="button" id="saveButton">Сохранить</button>
+          </div>
+        </form>
+      </div>
     </main>
   </body>
 </html>

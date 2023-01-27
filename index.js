@@ -4,6 +4,13 @@ window.onload = () => {
   const aboutFilter = document.getElementById('aboutFilter')
   const eyeColourFilter = document.getElementById('eyeColourFilter')
 
+  const eachRow = document.querySelector('.tb-content')
+
+  // eachRow.addEventListener('click', (e) => {
+  //   e.target.classList.add('.visibility')
+  //   console.log(e.target)
+  // })
+
   firstNameFilter.addEventListener('click', () => {
     /*
       sorting algo:
@@ -99,11 +106,11 @@ function UpdateTable(data) {
     Loop over JSON data, for each entry create an element and append
     it to the scroll container / table 
   */
-  data.map((item) => {
+  data.map((item, i) => {
     /*
       Initalize elements
     */
-    const cell = document.createElement('div')
+    const row = document.createElement('button')
     const firstName = document.createElement('span')
     const lastName = document.createElement('span')
     const about = document.createElement('span')
@@ -123,12 +130,20 @@ function UpdateTable(data) {
 
     eyeColour.setAttribute('style', `color:${item.eyeColor}`) //Add style attribute for colour of eyes
 
-    cell.classList.add('tb-content')
+    row.classList.add('tb-content')
 
-    cell.append(firstName, lastName, aboutContainer, eyeColour)
+    row.id = `cell-${i}`
 
-    scrollContainer.append(cell)
+    row.append(firstName, lastName, aboutContainer, eyeColour)
+
+    scrollContainer.append(row)
   })
+}
+
+function EditRow(row) {
+  const editPage = document.getElementById('edit-form')
+
+  editPage.classList.toggle('.visibility')
 }
 
 const JsonData = [
