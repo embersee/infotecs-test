@@ -1,15 +1,47 @@
 window.onload = () => {
+  UpdateTable(JsonData)
+
+  filterTable()
+
+  const saveButton = document.getElementById('saveButton')
+  const cancelButton = document.getElementById('cancelButton')
+
+  cancelButton.addEventListener('click', () => {
+    //clear data in input fields
+    document.getElementById('edit-form').dataset.id = ''
+    document.getElementById('firstNameInput').value = ''
+    document.getElementById('lastNameInput').value = ''
+    document.getElementById('aboutInput').value = ''
+    document.getElementById('eyeColourInput').value = ''
+  })
+
+  saveButton.addEventListener('click', () => {
+    //get data from input fields
+    const id = document.getElementById('edit-form').dataset.id
+    const firstNameInput = document.getElementById('firstNameInput').value
+    const lastNameInput = document.getElementById('lastNameInput').value
+    const aboutInput = document.getElementById('aboutInput').value
+    const eyeColourInput = document.getElementById('eyeColourInput').value
+
+    //insert input values into json
+    for (let i = 0; i < JsonData.length; i++) {
+      if (JsonData[i].id == id) {
+        JsonData[i].name.firstName = firstNameInput
+        JsonData[i].name.lastName = lastNameInput
+        JsonData[i].about = aboutInput
+        JsonData[i].eyeColor = eyeColourInput
+      }
+    }
+
+    UpdateTable(JsonData)
+  })
+}
+
+function filterTable() {
   const firstNameFilter = document.getElementById('firstNameFilter')
   const lastNameFilter = document.getElementById('lastNameFilter')
   const aboutFilter = document.getElementById('aboutFilter')
   const eyeColourFilter = document.getElementById('eyeColourFilter')
-
-  const eachRow = document.querySelector('.tb-content')
-
-  // eachRow.addEventListener('click', (e) => {
-  //   e.target.classList.add('.visibility')
-  //   console.log(e.target)
-  // })
 
   firstNameFilter.addEventListener('click', () => {
     /*
@@ -94,8 +126,6 @@ window.onload = () => {
       eyeColourFilter.classList.remove('sorted')
     }
   })
-
-  UpdateTable(JsonData)
 }
 
 function UpdateTable(data) {
@@ -132,18 +162,32 @@ function UpdateTable(data) {
 
     row.classList.add('tb-content')
 
-    row.id = `cell-${i}`
+    row.id = item.id
 
     row.append(firstName, lastName, aboutContainer, eyeColour)
 
     scrollContainer.append(row)
   })
+  EditRow()
 }
 
-function EditRow(row) {
-  const editPage = document.getElementById('edit-form')
+function EditRow() {
+  const eachRow = document.querySelectorAll('.tb-content')
+  const editForm = document.getElementById('edit-form')
 
-  editPage.classList.toggle('.visibility')
+  eachRow.forEach((row) => {
+    row.addEventListener('click', () => {
+      const rowValue = row.getElementsByTagName('span')
+
+      Array.from(editForm.children).forEach((inputEl, i) => {
+        //insert items into input field
+        inputEl.lastElementChild.value = rowValue.item(i).innerHTML
+
+        //set data-attribute for the itemID
+        editForm.dataset.id = rowValue.item(i).parentElement.id
+      })
+    })
+  })
 }
 
 const JsonData = [

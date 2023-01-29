@@ -125,3 +125,7 @@ button {
   /* important for long words */
   word-wrap: break-word;
 }
+
+textarea {
+  font-size: 16px;
+}
